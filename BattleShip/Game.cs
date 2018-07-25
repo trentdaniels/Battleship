@@ -6,7 +6,7 @@ namespace BattleShip
         // Member Variables
         Player player1;
         Player player2;
-        //Grid grid;
+        Board board;
 
         // Constructors
         public Game()
@@ -20,6 +20,7 @@ namespace BattleShip
         {
             player1 = CreateNewPlayer(player1, true);
             player2 = CreateNewPlayer(player2, false);
+            board = new Board();
         }
 
         public void RunGame()
