@@ -14,14 +14,14 @@ namespace BattleShip
         }
 
         // Methods
-        public override void FireAtTarget(int[][] targetedBoard, Player targetedPlayer)
+        public override void FireAtTarget(int[][] targetedBoard, Player targetedPlayer, Player shooter)
         {
             int selectedRow;
             int selectedColumn;
 
             targetedBoard = targetedPlayer.board.grid;
 
-            Console.WriteLine($"{targetedPlayer.name}, which row would you like to target?");
+            Console.WriteLine($"{name}, which row would you like to target?");
             selectedRow = int.Parse(Console.ReadLine());
             if (selectedRow > board.boardDimension) 
             {
@@ -34,10 +34,22 @@ namespace BattleShip
             {
                 Console.WriteLine($"This is not a valid column. Please choose between 1 and {board.boardDimension}");
             }
-            targetedBoard[selectedRow][selectedColumn] = 1;
+            targetedBoard[selectedRow - 1][selectedColumn - 1] = 1;
             Console.WriteLine($"{name} fired at row {selectedRow} column {selectedColumn}");
 
             
+        }
+
+        public void GetName()
+        {
+            string welcome;
+
+
+            welcome = "Awesome! What is your name?";
+            Console.WriteLine(welcome);
+            name = Console.ReadLine();
+            Console.WriteLine($"Welcome to Battleship, {name}!");
+            Console.ReadLine();
         }
 
 

@@ -16,7 +16,7 @@ namespace BattleShip
         }
 
         // Methods
-        public override void FireAtTarget(int[][] targetedBoard, Player targetedPlayer)
+        public override void FireAtTarget(int[][] targetedBoard, Player targetedPlayer, Player shooter)
         {
             string result;
             int randomRowOnBoard;
@@ -31,8 +31,9 @@ namespace BattleShip
                 targetedBoard[randomRowOnBoard][randomColumnOnBoard]++;
             }
 
-            result = $"{targetedPlayer.name} was shot at row {randomRowOnBoard} column {randomColumnOnBoard}";
+            result = $"{name} fired at row {randomRowOnBoard} column {randomColumnOnBoard}";
             Console.WriteLine(result);
+            Console.ReadLine();
 
             
 

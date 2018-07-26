@@ -15,16 +15,7 @@ namespace BattleShip
         }
 
         // Methods
-        public void GetName() {
-            string welcome;
 
-
-            welcome = "Awesome! What is your name?";
-            Console.WriteLine(welcome);
-            name = Console.ReadLine();
-            Console.WriteLine($"Welcome to Battleship, {name}!");
-            Console.ReadLine();
-        }
-        public abstract void FireAtTarget(int[][] targetedBoard, Player targetedPlayer);
+        public abstract void FireAtTarget(int[][] targetedBoard, Player targetedPlayer, Player shooter);
     }
 }
