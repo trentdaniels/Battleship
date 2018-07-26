@@ -26,6 +26,7 @@ namespace BattleShip
         public void RunGame()
         {
             player1.FireAtTarget(player2.board.grid, player2);
+            player2.FireAtTarget(player1.board.grid, player1);
         }
 
         public Player CreateNewPlayer(Player player, bool isPlayer1)

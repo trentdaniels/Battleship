@@ -8,13 +8,11 @@ namespace BattleShip
         // Members
         public string size;
         public int boardDimension;
-        List<int> targets;
         public int[][] grid;
 
         // Constructor
         public Board()
         {
-            targets = new List<int> { };
 
         }
 

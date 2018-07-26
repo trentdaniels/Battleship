@@ -10,7 +10,7 @@ namespace BattleShip
         public Computer(bool isPlayer1)
         {
             this.isPlayer1 = isPlayer1;
-            GetName();
+            name = "Computer";
             board = new Board();
             random = new Random();
         }

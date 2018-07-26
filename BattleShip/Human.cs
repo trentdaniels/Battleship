@@ -19,6 +19,8 @@ namespace BattleShip
             int selectedRow;
             int selectedColumn;
 
+            targetedBoard = targetedPlayer.board.grid;
+
             Console.WriteLine($"{targetedPlayer.name}, which row would you like to target?");
             selectedRow = int.Parse(Console.ReadLine());
             if (selectedRow > board.boardDimension) 
@@ -26,14 +28,14 @@ namespace BattleShip
                 Console.WriteLine($"This is not a valid row. Please choose between 1 and {board.boardDimension}");
             }
 
-            Console.WriteLine($"You selected row {selectedRow}. Which column would you like to target?");
+            Console.WriteLine($"Select Column");
             selectedColumn = int.Parse(Console.ReadLine());
             if (selectedColumn > board.boardDimension)
             {
                 Console.WriteLine($"This is not a valid column. Please choose between 1 and {board.boardDimension}");
             }
-
-            Console.WriteLine($"You selected column {selectedColumn}. Firing at {targetedPlayer.name}");
+            targetedBoard[selectedRow][selectedColumn] = 1;
+            Console.WriteLine($"{name} fired at row {selectedRow} column {selectedColumn}");
 
             
         }
