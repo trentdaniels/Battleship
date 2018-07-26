@@ -34,7 +34,7 @@ namespace BattleShip
             {
                 Console.WriteLine($"This is not a valid column. Please choose between 1 and {board.boardDimension}");
             }
-            targetedBoard[selectedRow - 1][selectedColumn - 1] = 1;
+            targetedBoard[selectedRow - 1][selectedColumn - 1] += 2;
             Console.WriteLine($"{name} fired at row {selectedRow} column {selectedColumn}");
 
             

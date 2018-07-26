@@ -26,10 +26,9 @@ namespace BattleShip
             randomRowOnBoard = random.Next(0, targetedPlayer.board.boardDimension);
             randomColumnOnBoard = random.Next(0, targetedPlayer.board.boardDimension);
 
-            if (targetedBoard[randomRowOnBoard][randomColumnOnBoard] == 0)
-            {
-                targetedBoard[randomRowOnBoard][randomColumnOnBoard]++;
-            }
+
+            targetedBoard[randomRowOnBoard][randomColumnOnBoard]+= 2;
+            
 
             result = $"{name} fired at row {randomRowOnBoard} column {randomColumnOnBoard}";
             Console.WriteLine(result);
