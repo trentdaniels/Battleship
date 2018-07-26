@@ -24,6 +24,6 @@ namespace BattleShip
             Console.WriteLine($"Welcome to Battleship, {name}!");
             Console.ReadLine();
         }
-        public abstract void FireAtTarget(string target, Player player);
+        public abstract void FireAtTarget(Board board, Player targetedPlayer);
     }
 }

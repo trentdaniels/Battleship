@@ -14,7 +14,7 @@ namespace BattleShip
         }
 
         // Methods
-        public override void FireAtTarget(string target, Player player)
+        public override void FireAtTarget(Board board, Player player)
         {
 
         }
