@@ -20,6 +20,7 @@ namespace BattleShip
 
             switch (orientation) {
                 case "horizontal":
+                    
                     break;
                 case "vertical":
                     break;
@@ -29,6 +30,7 @@ namespace BattleShip
                     break;
             }
         }
+
     }
 
    

@@ -7,6 +7,7 @@ namespace BattleShip
         public string name;
         public bool isPlayer1;
         public Board board;
+        public Ship ship;
 
         // Constructors
         public Player()
