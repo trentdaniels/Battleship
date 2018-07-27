@@ -6,20 +6,20 @@ namespace BattleShip
         // Member Variables
         public int size;
         public string orientation;
-        public string name;
+        public string type;
         public int originX;
         public int originY;
 
         // Constructors
         public Ship()
         {
-            
+
         }
 
         // Methods
         public abstract void CreateShip(Player player);
 
-        public void GetStartingPosition(Player player) 
+        public void GetShipStartingPosition()
         {
 
             int startingRow;
@@ -34,6 +34,25 @@ namespace BattleShip
             originY = startingColumn;
 
 
+        }
+        public void ReAlignShip(Board board)
+        {
+            if (originX + size > board.boardDimension)
+            {
+                originX = board.boardDimension;
+                for (int i = board.boardDimension; i > board.boardDimension - size; i--) 
+                {
+                    board.grid[originX - i][originY] = 1;
+                }
+            }
+            else if (originY + size > board.boardDimension) 
+            {
+                originY = board.boardDimension;
+                for (int i = board.boardDimension; i > board.boardDimension - size; i--) 
+                {
+                    board.grid[originX][originY - i] = 1;
+                }
+            }
         }
     }
 }
