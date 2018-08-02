@@ -21,7 +21,7 @@ namespace BattleShip
         }
 
         // Methods
-        public int[][] CreateBoard(int boardDimension)
+        public int[][] CreateBoard()
         {
 
             int[][] board;

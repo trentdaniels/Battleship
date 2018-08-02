@@ -19,26 +19,26 @@ namespace BattleShip
             Orientation = Console.ReadLine();
 
             switch (Orientation) {
-                case "horizontal":
+                case "1":
                     GetShipStartingPosition();
-                    for (int i = 0; i < size; i++) 
+                    for (int i = 0; i < Size; i++) 
                     {
-                        if(originX > player.board.boardDimension)
+                        if(OriginX > player.Board.BoardDimension)
                         {
-                            ReAlignShip(player.board);
+                            ReAlignShip(player.Board);
                             break;
                         }
 
-                        player.board.grid[originX + i][originY] = 1;
+                        player.Board.Grid[OriginX + i][OriginY] = 1;
 
                     }
                     break;
                 case "vertical":
                     GetShipStartingPosition();
-                    for (int i = 0; i < size; i++) {
-                        player.board.grid[originX][originY + i] = 1;
+                    for (int i = 0; i < Size; i++) {
+                        player.Board.Grid[OriginX][OriginY + i] = 1;
                     }
-                    ReAlignShip(player.board);
+                    ReAlignShip(player.Board);
                     break;
                 default:
                     Console.WriteLine("Invalid Input. Please choose 'horizontal' or 'vertical'");
