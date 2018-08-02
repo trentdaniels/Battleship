@@ -6,18 +6,18 @@ namespace BattleShip
         // Members
 
         // Constructors
-        public Human(bool isPlayer1)
+        public Human()
         {
-            this.isPlayer1 = isPlayer1;
-            GetName();
-            board = new Board();
+            
+            Name = GetName();
         }
 
         // Methods
-        public override void FireAtTarget(int[][] targetedBoard, Player targetedPlayer, Player shooter)
+        public override void FireAtTarget(Player targetedPlayer)
         {
             int selectedRow;
             int selectedColumn;
+            int[][] targetedBoard;
 
             targetedBoard = targetedPlayer.board.grid;
 
@@ -40,16 +40,23 @@ namespace BattleShip
             
         }
 
-        public void GetName()
+        public string GetName()
         {
             string welcome;
-
+            string playerName;
 
             welcome = "Awesome! What is your name?";
             Console.WriteLine(welcome);
-            name = Console.ReadLine();
+            playerName = Console.ReadLine();
+
+            if (playerName.Length < 1)
+            {
+                Console.WriteLine("Whoops. Please enter a name next time!");
+                return GetName();
+            }
             Console.WriteLine($"Welcome to Battleship, {name}!");
-            Console.ReadLine();
+            return playerName;
+
         }
 
 

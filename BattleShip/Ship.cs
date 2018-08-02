@@ -26,9 +26,9 @@ namespace BattleShip
             int startingColumn;
 
             Console.WriteLine("Which row would you like to create this ship?");
-            startingRow = int.Parse(Console.ReadLine());
+            startingRow = int.Parse(Console.ReadLine()) - 1;
             Console.WriteLine("Which Column?");
-            startingColumn = int.Parse(Console.ReadLine());
+            startingColumn = int.Parse(Console.ReadLine()) - 1;
 
             originX = startingRow;
             originY = startingColumn;
@@ -43,7 +43,9 @@ namespace BattleShip
                 for (int i = board.boardDimension; i > board.boardDimension - size; i--) 
                 {
                     board.grid[originX - i][originY] = 1;
+
                 }
+                Console.WriteLine("Re-aligned ship to your board.");
             }
             else if (originY + size > board.boardDimension) 
             {
@@ -51,7 +53,9 @@ namespace BattleShip
                 for (int i = board.boardDimension; i > board.boardDimension - size; i--) 
                 {
                     board.grid[originX][originY - i] = 1;
+
                 }
+                Console.WriteLine("Re-aligned ship to your board.");
             }
         }
     }

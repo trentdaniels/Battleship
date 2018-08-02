@@ -7,20 +7,19 @@ namespace BattleShip
         private Random random;
 
         // Constructors
-        public Computer(bool isPlayer1)
+        public Computer()
         {
-            this.isPlayer1 = isPlayer1;
-            name = "Computer";
-            board = new Board();
+            Name = "Computer";
             random = new Random();
         }
 
         // Methods
-        public override void FireAtTarget(int[][] targetedBoard, Player targetedPlayer, Player shooter)
+        public override void FireAtTarget(Player targetedPlayer)
         {
             string result;
             int randomRowOnBoard;
             int randomColumnOnBoard;
+            int[][] targetedBoard;
 
             targetedBoard = targetedPlayer.board.grid;
             randomRowOnBoard = random.Next(0, targetedPlayer.board.boardDimension);

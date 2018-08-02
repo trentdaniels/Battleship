@@ -6,9 +6,13 @@ namespace BattleShip
     public class Board
     {
         // Members
-        public string size;
-        public int boardDimension;
-        public int[][] grid;
+        private string size;
+        private int boardDimension;
+        private int[][] grid;
+
+        public string Size { get => size; set => size = value; }
+        public int BoardDimension { get => boardDimension; set => boardDimension = value; }
+        public int[][] Grid { get => grid; set => grid = value; }
 
         // Constructor
         public Board()

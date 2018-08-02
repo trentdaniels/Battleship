@@ -23,10 +23,15 @@ namespace BattleShip
                     GetShipStartingPosition();
                     for (int i = 0; i < size; i++) 
                     {
-                        player.board.grid[player.ship.originX + i][player.ship.originY] = 1;
+                        if(originX > player.board.boardDimension)
+                        {
+                            ReAlignShip(player.board);
+                            break;
+                        }
+
+                        player.board.grid[originX + i][originY] = 1;
 
                     }
-                    ReAlignShip(player.board);
                     break;
                 case "vertical":
                     GetShipStartingPosition();
