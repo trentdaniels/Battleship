@@ -8,17 +8,17 @@ namespace BattleShip
         // Constructor
         public Destroyer()
         {
-            size = 2;
-            type = "Destroyer";
+            Size = 2;
+            Type = "Destroyer";
         }
 
         // Methods
         public override void CreateShip(Player player)
         {
-            Console.WriteLine($"Would you like the {type} to be 'horizontal' or 'vertical'?");
-            orientation = Console.ReadLine();
+            Console.WriteLine($"Would you like the {Type} to be [1]Horizontal or [2]Vertical  ?");
+            Orientation = Console.ReadLine();
 
-            switch (orientation) {
+            switch (Orientation) {
                 case "horizontal":
                     GetShipStartingPosition();
                     for (int i = 0; i < size; i++) 
