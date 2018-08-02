@@ -5,12 +5,15 @@ namespace BattleShip
     {
         // Members
         private Random random;
+        private bool isPlayer1;
+
+        public bool IsPlayer1 { get => isPlayer1; set => isPlayer1 = value; }
 
         // Constructors
-        public Computer()
+        public Computer(Player firstPlayer, Player secondPlayer)
         {
-            Name = "Computer";
             random = new Random();
+
         }
 
         // Methods
@@ -31,11 +34,11 @@ namespace BattleShip
 
             result = $"{Name} fired at row {randomRowOnBoard} column {randomColumnOnBoard}";
             Console.WriteLine(result);
-            Console.ReadLine();
 
             
 
         }
+
 
     }
 }

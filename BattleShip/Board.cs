@@ -33,8 +33,6 @@ namespace BattleShip
             {
                 board[i] = new int[boardDimension];
             }
-            Console.WriteLine(size);
-            Console.ReadLine();
 
             foreach (int[] row in board)
             {

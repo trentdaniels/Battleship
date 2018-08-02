@@ -8,8 +8,6 @@ namespace BattleShip
         // Constructors
         public Human()
         {
-            
-            Name = GetName();
         }
 
         // Methods
@@ -40,23 +38,7 @@ namespace BattleShip
             
         }
 
-        public string GetName()
-        {
-            string welcome;
-            string playerName;
-
-            welcome = "Awesome! What is your name?";
-            Console.WriteLine(welcome);
-            playerName = Console.ReadLine();
-
-            if (playerName.Length < 1)
-            {
-                Console.WriteLine("Whoops. Please enter a name next time!");
-                return GetName();
-            }
-            return playerName;
-
-        }
+       
 
 
 

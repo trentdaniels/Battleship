@@ -40,7 +40,7 @@ namespace BattleShip
 
             Console.WriteLine("Welcome to Battleship " + (isPlayer1 ? "Player 1! " : "Player 2! "));
             Console.WriteLine("Please choose [1]Human or [2]Computer");
-            playerType = Console.ReadLine().ToLower();
+            playerType = Console.ReadLine();
 
             switch (playerType) 
             {
@@ -48,10 +48,10 @@ namespace BattleShip
                     player = new Human();
                     return player;
                 case "2":
-                    player = new Computer();
+                    player = new Computer(player1,player2);
                     return player;
                 default:
-                    Console.WriteLine("Invalid input. Please choose 'human' or 'computer'");
+                    Console.WriteLine("Invalid input. Please try again.");
                     return CreateNewPlayer(isPlayer1);
             }
 
@@ -66,13 +66,11 @@ namespace BattleShip
             {
                 Console.WriteLine("Your desired board size is too small. Please try again.");
                 GetSizeOfBoard();
+                return;
 
             }
-
             player1.Board.BoardDimension = boardDimension;
             player2.Board.BoardDimension = boardDimension;
-
-
         }
 
         public void CreatePlayerBoard () 
@@ -81,24 +79,19 @@ namespace BattleShip
             player2.Board.Grid = player2.Board.CreateBoard();
             Console.WriteLine($"Each Player will have a board with dimensions of {player1.Board.Size}.");
             Console.WriteLine("Created the boards! Now, let's get ready to play.");
-            Console.ReadLine();
         }
         private bool HasTwoHumanPlayers() 
         {
-            if (player1.Name != "Computer" && player2.Name != "Computer")
-            {
-                return true;
-            }
-            return false;
+            return player1.Name != "Computer" && player2.Name != "Computer";
         }
         private void WelcomePlayers()
         {
-            if(HasTwoHumanPlayers())
-            {
-                Console.WriteLine($"Welcome to Battleship {player1.Name} and {player2.Name}!");
-                return;
-            }
-            Console.WriteLine($"Welcome to Battleship {player1.Name}!");
+            Console.WriteLine($"Welcome to Battleship {player1.Name} and {player2.Name}!");
+        }
+        private bool HasTwoComputerPlayers()
+        {
+            return player1.Name == "Computer" && player2.Name == "Computer";
+
         }
 
 
