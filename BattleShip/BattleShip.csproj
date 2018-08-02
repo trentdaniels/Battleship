@@ -41,6 +41,9 @@
     <Compile Include="Board.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="Destroyer.cs" />
+    <Compile Include="Submarine.cs" />
+    <Compile Include="Battleship.cs" />
+    <Compile Include="AircraftCarrier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,11 +7,11 @@ namespace BattleShip
     {
         // Members
         private string size;
-        private int boardDimension;
+
         private int[][] grid;
 
         public string Size { get => size; set => size = value; }
-        public int BoardDimension { get => boardDimension; set => boardDimension = value; }
+
         public int[][] Grid { get => grid; set => grid = value; }
 
         // Constructor
@@ -21,7 +21,7 @@ namespace BattleShip
         }
 
         // Methods
-        public int[][] CreateBoard()
+        public int[][] CreateBoard(int boardDimension)
         {
 
             int[][] board;
@@ -41,6 +41,9 @@ namespace BattleShip
             size = $"{boardDimension} x {boardDimension} units";
             return board;
         }
+
+
+
 
 
 

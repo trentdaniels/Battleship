@@ -24,46 +24,36 @@ namespace BattleShip
         }
 
         // Methods
-        public abstract void CreateShip(Player player);
+        public abstract void PlaceShip(Player player, int boardDimension);
 
         public void GetShipStartingPosition()
         {
-
-            int startingRow;
-            int startingColumn;
-
-            Console.WriteLine("Which row would you like to create this ship?");
-            startingRow = int.Parse(Console.ReadLine()) - 1;
+            Console.WriteLine($"On which row would you like to place the {Type}?");
+            originX = int.Parse(Console.ReadLine()) - 1;
             Console.WriteLine("Which Column?");
-            startingColumn = int.Parse(Console.ReadLine()) - 1;
-
-            originX = startingRow;
-            originY = startingColumn;
-
-
+            originY = int.Parse(Console.ReadLine()) - 1;
         }
-        public void ReAlignShip(Board board)
+
+        public void ReAlignShipX(Board board, int boardDimension)
         {
-            if (originX + size > board.BoardDimension)
+            originX = boardDimension;
+            for (int i = boardDimension; i > boardDimension - size; i--)
             {
-                originX = board.BoardDimension;
-                for (int i = board.BoardDimension; i > board.BoardDimension - size; i--) 
-                {
-                    board.Grid[originX - i][originY] = 1;
+                board.Grid[originX - i][originY] = 1;
 
-                }
-                Console.WriteLine("Re-aligned ship to your board.");
             }
-            else if (originY + size > board.BoardDimension) 
-            {
-                originY = board.BoardDimension;
-                for (int i = board.BoardDimension; i > board.BoardDimension - size; i--) 
-                {
-                    board.Grid[originX][originY - i] = 1;
-
-                }
-                Console.WriteLine("Re-aligned ship to your board.");
-            }
+            Console.WriteLine("Re-aligned ship to your board.");
         }
+        public void ReAlignShipY(Board board, int boardDimension)
+        {
+            originY = boardDimension;
+            for (int i = boardDimension; i > boardDimension - size; i--)
+            {
+                board.Grid[originX][originY - i] = 1;
+
+            }
+            Console.WriteLine("Re-aligned ship to your board.");
+        }
+            
     }
 }

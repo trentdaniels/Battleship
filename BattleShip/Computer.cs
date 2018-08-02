@@ -10,14 +10,14 @@ namespace BattleShip
         public bool IsPlayer1 { get => isPlayer1; set => isPlayer1 = value; }
 
         // Constructors
-        public Computer(Player firstPlayer, Player secondPlayer)
+        public Computer()
         {
             random = new Random();
 
         }
 
         // Methods
-        public override void FireAtTarget(Player targetedPlayer)
+        public override void FireAtTarget(Player targetedPlayer, int boardDimension)
         {
             string result;
             int randomRowOnBoard;
@@ -25,8 +25,8 @@ namespace BattleShip
             int[][] targetedBoard;
 
             targetedBoard = targetedPlayer.Board.Grid;
-            randomRowOnBoard = random.Next(0, targetedPlayer.Board.BoardDimension);
-            randomColumnOnBoard = random.Next(0, targetedPlayer.Board.BoardDimension);
+            randomRowOnBoard = random.Next(0, boardDimension);
+            randomColumnOnBoard = random.Next(0, boardDimension);
 
 
             targetedBoard[randomRowOnBoard][randomColumnOnBoard]+= 2;

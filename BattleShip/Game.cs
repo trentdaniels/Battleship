@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace BattleShip
 {
     public class Game
@@ -6,40 +8,66 @@ namespace BattleShip
         // Member Variables
         Player player1;
         Player player2;
+        List<Player> players;
+        private int boardDimension;
+
+        public int BoardDimension { get => boardDimension; set => boardDimension = value; }
 
         // Constructors
         public Game()
         {
-            
+            SetUpPlayers();
             SetUpGame();
+            RunShipCreation();
             RunGame();
         }
 
         // Methods
+        private void SetUpPlayers()
+        {
+            player1 = CreateNewPlayer();
+            player2 = CreateNewPlayer();
+                
+            players = new List<Player>() { };
+            players.Add(player1);
+            players.Add(player2);
+
+        }
+
         public void SetUpGame() 
         {
-            player1 = CreateNewPlayer(true);
-            player2 = CreateNewPlayer(false);
             WelcomePlayers();
-            GetSizeOfBoard();
+            SetSizeOfBoard();
             CreatePlayerBoard();
+        }
+
+
+
+        public void RunShipCreation()
+        {
+            foreach(Player player in players)
+            {
+                foreach(Ship ship in player.Ships)
+                {
+                    ship.GetShipStartingPosition();
+                    ship.PlaceShip(player, boardDimension);
+                }
+            }
         }
 
         public void RunGame()
         {
-            Destroyer destroyer = new Destroyer();
-            destroyer.CreateShip(player1);
-            player1.FireAtTarget(player2);
-            player2.FireAtTarget(player1);
+            player1.FireAtTarget(player2, boardDimension);
+            player2.FireAtTarget(player1, boardDimension);
         }
 
-        public Player CreateNewPlayer(bool isPlayer1)
+        public Player CreateNewPlayer()
         {
             string playerType;
             Player player;
 
-            Console.WriteLine("Welcome to Battleship " + (isPlayer1 ? "Player 1! " : "Player 2! "));
-            Console.WriteLine("Please choose [1]Human or [2]Computer");
+            Console.WriteLine("New Player:");
+            Console.WriteLine("Are you a [1]Human or [2]Computer");
             playerType = Console.ReadLine();
 
             switch (playerType) 
@@ -48,51 +76,47 @@ namespace BattleShip
                     player = new Human();
                     return player;
                 case "2":
-                    player = new Computer(player1,player2);
+                    player = new Computer();
                     return player;
                 default:
                     Console.WriteLine("Invalid input. Please try again.");
-                    return CreateNewPlayer(isPlayer1);
+                    return CreateNewPlayer();
             }
 
-        }
-        public void GetSizeOfBoard() 
-        {
-            int boardDimension;
-
-            Console.WriteLine("How many rows does each board have? Please choose a number (20 and above).");
-            boardDimension = int.Parse(Console.ReadLine());
-            if (boardDimension < 20)
-            {
-                Console.WriteLine("Your desired board size is too small. Please try again.");
-                GetSizeOfBoard();
-                return;
-
-            }
-            player1.Board.BoardDimension = boardDimension;
-            player2.Board.BoardDimension = boardDimension;
         }
 
         public void CreatePlayerBoard () 
         {
-            player1.Board.Grid = player1.Board.CreateBoard();
-            player2.Board.Grid = player2.Board.CreateBoard();
+            player1.Board.Grid = player1.Board.CreateBoard(boardDimension);
+            player2.Board.Grid = player2.Board.CreateBoard(boardDimension);
             Console.WriteLine($"Each Player will have a board with dimensions of {player1.Board.Size}.");
             Console.WriteLine("Created the boards! Now, let's get ready to play.");
-        }
-        private bool HasTwoHumanPlayers() 
-        {
-            return player1.Name != "Computer" && player2.Name != "Computer";
         }
         private void WelcomePlayers()
         {
             Console.WriteLine($"Welcome to Battleship {player1.Name} and {player2.Name}!");
         }
-        private bool HasTwoComputerPlayers()
+
+        public void SetSizeOfBoard()
         {
-            return player1.Name == "Computer" && player2.Name == "Computer";
+            boardDimension = GetSizeOfBoard();
 
         }
+
+        public int GetSizeOfBoard()
+        {
+
+            Console.WriteLine("How many rows does each board have? Please choose a number (20 and above).");
+            int boardPossibleDimension = int.Parse(Console.ReadLine());
+            if (boardPossibleDimension < 20)
+            {
+                Console.WriteLine("Your desired board size is too small. Please try again.");
+                return GetSizeOfBoard();
+
+            }
+            return boardPossibleDimension;
+        }
+
 
 
 
