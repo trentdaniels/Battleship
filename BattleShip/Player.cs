@@ -50,6 +50,9 @@ namespace BattleShip
         {
             ships = new List<Ship>() { };
             ships.Add(new Destroyer());
+            ships.Add(new Submarine());
+            ships.Add(new Battleship());
+            ships.Add(new AircraftCarrier());
         }
     }
 }

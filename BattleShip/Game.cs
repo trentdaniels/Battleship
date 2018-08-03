@@ -50,7 +50,8 @@ namespace BattleShip
                 foreach(Ship ship in player.Ships)
                 {
                     ship.GetShipStartingPosition();
-                    ship.PlaceShip(player, boardDimension);
+                    ship.GetShipOrientation();
+                    ship.PlaceShip(player.Board, boardDimension);
                 }
             }
         }
