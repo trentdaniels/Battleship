@@ -47,6 +47,7 @@ namespace BattleShip
         {
             foreach(Player player in players)
             {
+                Console.WriteLine($"{player.Name}:");
                 foreach(Ship ship in player.Ships)
                 {
                     ship.GetShipStartingPosition();
