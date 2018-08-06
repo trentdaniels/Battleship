@@ -63,41 +63,38 @@ namespace BattleShip
 
         public void PlaceShip(Board board, int boardDimension)
         {
-            if (orientation == "horizontal")
+            for (int i = 0; i < Size; i++)
             {
-                for (int i = 0; i < Size; i++)
+                if (orientation == "horizontal")
                 {
                     if (NeedsReAlignmentX(boardDimension))
                     {
                         ReAlignShipX(boardDimension);
-                        if (OverlapsOtherShipReverseX(board))
+                        if (OverlapsOtherShipReverseX(board, i))
                         {
-                            ShiftShipDown(board, boardDimension);
+                            ShiftShipDown(board, boardDimension, i);
                             ReverseShipCreationDirectionX(board);
                             break;
                         }
                         ReverseShipCreationDirectionX(board);
                         break;
                     }
-                    if (OverlapsOtherShipX(board))
+                    if (OverlapsOtherShipX(board, i))
                     {
-                        ShiftShipDown(board, boardDimension); 
-                        Console.WriteLine($"Shifted {Type} over to avoid overlapping ships.");  
+                        ShiftShipDown(board, boardDimension, i);
+                        Console.WriteLine($"Shifted {Type} over to avoid overlapping ships.");
                     }
                     board.Grid[OriginX + i][OriginY] = 1;
                 }
-            }
-
-            else 
-            {
-                for (int i = 0; i < Size; i++)
+                // Vertical Case
+                else
                 {
                     if (NeedsReAlignmentY(boardDimension))
                     {
                         ReAlignShipY(boardDimension);
-                        if (OverlapsOtherShipReverseY(board))
+                        if (OverlapsOtherShipReverseY(board, i))
                         {
-                            ShiftShipAcross(board, boardDimension);
+                            ShiftShipAcross(board, boardDimension, i);
 
                             ReverseShipCreationDirectionY(board);
                             break;
@@ -105,16 +102,19 @@ namespace BattleShip
                         ReverseShipCreationDirectionY(board);
                         break;
                     }
-                    if (OverlapsOtherShipY(board))
+                    if (OverlapsOtherShipY(board, i))
                     {
-                        ShiftShipAcross(board, boardDimension);
-                        Console.WriteLine($"Shifted {Type} over to avoid overlapping ships.");  
+                        ShiftShipAcross(board, boardDimension, i);
+                        Console.WriteLine($"Shifted {Type} over to avoid overlapping ships.");
                     }
                     board.Grid[OriginX][OriginY + i] = 1;
+
                 }
             }
-
         }
+
+            
+
 
         private bool NeedsReAlignmentX(int boardDimension)
         {
@@ -124,9 +124,9 @@ namespace BattleShip
         {
             return OriginY + Size > boardDimension - 1;
         }
-        private bool OverlapsOtherShipX(Board board)
+        private bool OverlapsOtherShipX(Board board, int index)
         {
-            for (int i = 0; i < Size; i++)
+            for (int i = index; i < Size; i++)
             {
                 if (board.Grid[OriginX + i][OriginY] == 1)
                 {
@@ -135,9 +135,9 @@ namespace BattleShip
             }
             return false;
         }
-        private bool OverlapsOtherShipY(Board board)
+        private bool OverlapsOtherShipY(Board board, int index)
         {
-            for (int i = 0; i < Size; i++)
+            for (int i = index; i < Size; i++)
             {
                 if (board.Grid[OriginX][OriginY + i] == 1)
                 {
@@ -146,9 +146,9 @@ namespace BattleShip
             }
             return false;
         }
-        private bool OverlapsOtherShipReverseX(Board board)
+        private bool OverlapsOtherShipReverseX(Board board, int index)
         {
-            for (int i = 0; i < size; i++)
+            for (int i = index; i < size; i++)
             {
                 if (board.Grid[OriginX - i][OriginY] == 1)
                 {
@@ -157,9 +157,9 @@ namespace BattleShip
             }
             return false;
         }
-        private bool OverlapsOtherShipReverseY(Board board)
+        private bool OverlapsOtherShipReverseY(Board board, int index)
         {
-            for (int i = 0; i < size; i++)
+            for (int i = index; i < size; i++)
             {
                 if (board.Grid[OriginX][OriginY - i] == 1)
                 {
@@ -168,9 +168,9 @@ namespace BattleShip
             }
             return false;
         }
-        private void ShiftShipDown (Board board, int boardDimension)
+        private void ShiftShipDown (Board board, int boardDimension, int index)
         {
-            while (OverlapsOtherShipX(board))
+            while (OverlapsOtherShipX(board, index))
             {
                 OriginY += 1;
                 if (OriginY > boardDimension - 1)
@@ -180,9 +180,9 @@ namespace BattleShip
             }
 
         }
-        private void ShiftShipAcross(Board board, int boardDimension)
+        private void ShiftShipAcross(Board board, int boardDimension, int index)
         {
-            while (OverlapsOtherShipY(board))
+            while (OverlapsOtherShipY(board, index))
             {
                 OriginX += 1;
                 if(OriginX > boardDimension - 1)
