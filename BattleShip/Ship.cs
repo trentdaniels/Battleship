@@ -31,10 +31,29 @@ namespace BattleShip
         public void GetShipStartingPosition()
         {
             Console.WriteLine($"On which row would you like to place the {Type}?");
-            originX = int.Parse(Console.ReadLine()) - 1;
+            if (int.TryParse(Console.ReadLine(), out originX))
+            {
+                originX--;
+            }
+            else
+            {
+                Console.WriteLine("Whoops! Try Again.");
+                GetShipStartingPosition();
+                return;
+            }
             Console.WriteLine("Which Column?");
-            originY = int.Parse(Console.ReadLine()) - 1;
+            if (int.TryParse(Console.ReadLine(), out originY))
+            {
+                originY--;
+            }
+            else
+            {
+                Console.WriteLine("Whoops! Try Again.");
+                GetShipStartingPosition();
+                return;
+            }
         }
+
         public void GetShipOrientation()
         {
             Console.WriteLine($"Would you like the {Type} to be [1]Horizontal or [2]Vertical  ?");

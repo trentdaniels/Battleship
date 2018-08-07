@@ -6,8 +6,6 @@ namespace BattleShip
     public class Game
     {
         // Member Variables
-        Player player1;
-        Player player2;
         List<Player> players;
         private int boardDimension;
 
@@ -25,13 +23,13 @@ namespace BattleShip
         // Methods
         private void SetUpPlayers()
         {
-            player1 = CreateNewPlayer();
-            player2 = CreateNewPlayer();
-                
-            players = new List<Player>() { };
-            players.Add(player1);
-            players.Add(player2);
-
+            players = new List<Player>();
+            for (int i = 0; i < 2; i++)
+            {
+                players.Add(CreateNewPlayer());
+                players[i].Name = players[i].GetName();
+            }
+            DeterminePlayer1();
         }
 
         public void SetUpGame() 
@@ -59,8 +57,8 @@ namespace BattleShip
 
         public void RunGame()
         {
-            player1.FireAtTarget(player2, boardDimension);
-            player2.FireAtTarget(player1, boardDimension);
+            players[0].FireAtTarget(players[1], boardDimension);
+            players[1].FireAtTarget(players[0], boardDimension);
         }
 
         public Player CreateNewPlayer()
@@ -83,20 +81,21 @@ namespace BattleShip
                 default:
                     Console.WriteLine("Invalid input. Please try again.");
                     return CreateNewPlayer();
+
             }
 
         }
 
         public void CreatePlayerBoard () 
         {
-            player1.Board.Grid = player1.Board.CreateBoard(boardDimension);
-            player2.Board.Grid = player2.Board.CreateBoard(boardDimension);
-            Console.WriteLine($"Each Player will have a board with dimensions of {player1.Board.Size}.");
+            players[0].Board.Grid = players[0].Board.CreateBoard(boardDimension);
+            players[1].Board.Grid = players[1].Board.CreateBoard(boardDimension);
+            Console.WriteLine($"Each Player will have a board with dimensions of {players[0].Board.Size}.");
             Console.WriteLine("Created the boards! Now, let's get ready to play.");
         }
         private void WelcomePlayers()
         {
-            Console.WriteLine($"Welcome to Battleship {player1.Name} and {player2.Name}!");
+            Console.WriteLine($"Welcome to Battleship {players[0].Name} and {players[1].Name}!");
         }
 
         public void SetSizeOfBoard()
@@ -117,6 +116,20 @@ namespace BattleShip
 
             }
             return boardPossibleDimension;
+        }
+        public void DeterminePlayer1()
+        {
+            foreach(Player player in players)
+            {
+                if (players.IndexOf(player) % 2 == 0)
+                {
+                    player.IsPlayer1 = true;
+                }
+                else
+                {
+                    player.IsPlayer1 = false;
+                }
+            }
         }
 
 

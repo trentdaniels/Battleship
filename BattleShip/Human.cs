@@ -8,6 +8,7 @@ namespace BattleShip
         // Constructors
         public Human()
         {
+            
         }
 
         // Methods
@@ -22,10 +23,25 @@ namespace BattleShip
             Console.WriteLine($"{Name}, which row would you like to target?");
             if(int.TryParse(Console.ReadLine(), out selectedRow))
             {
+                selectedRow--;
                 Console.WriteLine($"Select Column");
                 if(int.TryParse(Console.ReadLine(), out selectedColumn))
                 {
-                    targetedBoard[selectedRow - 1][selectedColumn - 1] += 2;
+                    selectedColumn--;
+                    foreach(Ship ship in targetedPlayer.Ships)
+                    {
+                        foreach(Coordinate coordinate in ship.Coordinates)
+                        {
+                            if (selectedRow == coordinate.CoordinateX && selectedColumn == coordinate.CoordinateY)
+                            {
+                                Console.WriteLine($"Hit the {ship.Type} at row {selectedRow} column {selectedColumn}.");
+                                targetedBoard[selectedRow - 1][selectedColumn - 1] += 2;
+                                break;
+                            }
+
+                        }
+                    }
+                    Console.WriteLine($"Missed at row {selectedRow} column {selectedColumn}.");
                 }
                 else 
                 {
@@ -40,14 +56,8 @@ namespace BattleShip
                 FireAtTarget(targetedPlayer, boardDimension);
                 return;
             }
-            if (IsTargetOffBoard(selectedRow,selectedColumn,boardDimension)) 
-            {
-                Console.WriteLine($"This is not a valid target.");
-                FireAtTarget(targetedPlayer, boardDimension);
-                return;
-            }
 
-            targetedBoard[selectedRow - 1][selectedColumn - 1] += 2;
+
             Console.WriteLine($"{Name} fired at row {selectedRow} column {selectedColumn}");
 
             
@@ -55,6 +65,24 @@ namespace BattleShip
         private bool IsTargetOffBoard(int selectedRow, int selectedColumn, int boardDimension)
         {
             return selectedRow > boardDimension || selectedColumn > boardDimension;
+        }
+
+        public override string GetName()
+        {
+            string welcome;
+            string playerName;
+
+            welcome = "What is your name?";
+            Console.WriteLine(welcome);
+            playerName = Console.ReadLine();
+
+            if (playerName.Length < 1)
+            {
+                Console.WriteLine("Whoops. Please enter a name next time!");
+                return GetName();
+            }
+            return playerName;
+
         }
        
        

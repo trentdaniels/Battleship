@@ -9,17 +9,18 @@ namespace BattleShip
         private string name;
         private Board board;
         private List<Ship> ships;
-       
+        private bool isPlayer1;
+
 
         public string Name { get => name; set => name = value; }
         public Board Board { get => board; set => board = value; }
+        public bool IsPlayer1 { get => isPlayer1; set => isPlayer1 = value; }
         public List<Ship> Ships { get => ships; set => ships = value; }
 
 
         // Constructors
         public Player()
         {
-            Name = GetName();
             board = new Board();
             CreateShips();
         }
@@ -27,23 +28,9 @@ namespace BattleShip
         // Methods
 
         public abstract void FireAtTarget(Player targetedPlayer, int boardDimension);
-        public string GetName()
-        {
-            string welcome;
-            string playerName;
 
-            welcome = "What is your name?";
-            Console.WriteLine(welcome);
-            playerName = Console.ReadLine();
-
-            if (playerName.Length < 1)
-            {
-                Console.WriteLine("Whoops. Please enter a name next time!");
-                return GetName();
-            }
-            return playerName;
-
-        }
+        public abstract string GetName();
+       
 
        
         public void CreateShips () 

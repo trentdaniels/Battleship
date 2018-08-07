@@ -1,19 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace BattleShip
 {
     public class Computer : Player
     {
         // Members
         private Random random;
-        private bool isPlayer1;
 
-        public bool IsPlayer1 { get => isPlayer1; set => isPlayer1 = value; }
 
         // Constructors
         public Computer()
         {
             random = new Random();
-
         }
 
         // Methods
@@ -38,7 +37,12 @@ namespace BattleShip
             
 
         }
-
+        public override string GetName()
+        {
+            string computerName = "Computer"; 
+            computerName += IsPlayer1 ? "1" : "2";
+            return computerName;
+        }
 
     }
 }
