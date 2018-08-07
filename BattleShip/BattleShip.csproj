@@ -44,6 +44,7 @@
     <Compile Include="Submarine.cs" />
     <Compile Include="Battleship.cs" />
     <Compile Include="AircraftCarrier.cs" />
+    <Compile Include="Coordinate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

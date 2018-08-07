@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace BattleShip
 {
     public abstract class Ship
@@ -9,18 +11,19 @@ namespace BattleShip
         private string type;
         private int originX;
         private int originY;
+        private List<Coordinate> coordinates;
 
         public int Size { get => size; set => size = value; }
         public string Orientation { get => orientation; set => orientation = value; }
         public string Type { get => type; set => type = value; }
         public int OriginX { get => originX; set => originX = value; }
         public int OriginY { get => originY; set => originY = value; }
-
+        public List<Coordinate> Coordinates { get => coordinates; set => coordinates = value; }
 
         // Constructors
         public Ship()
         {
-
+            coordinates = new List<Coordinate>();
         }
 
         // Methods
@@ -51,39 +54,33 @@ namespace BattleShip
             }
         }
 
-        public void ReAlignShipX(int boardDimension)
+        public void ReAlignShipX()
         {
-            originX = boardDimension - 1;
+            originX = 0;
 
         }
-        public void ReAlignShipY(int boardDimension)
+        public void ReAlignShipY()
         {
-            originY = boardDimension - 1;
+            originY = 0;
         }
 
         public void PlaceShip(Board board, int boardDimension)
         {
+            int counter = 0;
             for (int i = 0; i < Size; i++)
             {
                 if (orientation == "horizontal")
                 {
                     if (NeedsReAlignmentX(boardDimension))
                     {
-                        ReAlignShipX(boardDimension);
-                        if (OverlapsOtherShipReverseX(board, i))
-                        {
-                            ShiftShipDown(board, boardDimension, i);
-                            ReverseShipCreationDirectionX(board);
-                            break;
-                        }
-                        ReverseShipCreationDirectionX(board);
-                        break;
+                        ReAlignShipX();
                     }
                     if (OverlapsOtherShipX(board, i))
                     {
-                        ShiftShipDown(board, boardDimension, i);
-                        Console.WriteLine($"Shifted {Type} over to avoid overlapping ships.");
+                        ShiftShipDown(board, boardDimension, i, counter);
+
                     }
+                    coordinates.Add(new Coordinate(OriginX + i, OriginY));
                     board.Grid[OriginX + i][OriginY] = 1;
                 }
                 // Vertical Case
@@ -91,22 +88,14 @@ namespace BattleShip
                 {
                     if (NeedsReAlignmentY(boardDimension))
                     {
-                        ReAlignShipY(boardDimension);
-                        if (OverlapsOtherShipReverseY(board, i))
-                        {
-                            ShiftShipAcross(board, boardDimension, i);
-
-                            ReverseShipCreationDirectionY(board);
-                            break;
-                        }
-                        ReverseShipCreationDirectionY(board);
-                        break;
+                        ReAlignShipY();
                     }
                     if (OverlapsOtherShipY(board, i))
                     {
-                        ShiftShipAcross(board, boardDimension, i);
-                        Console.WriteLine($"Shifted {Type} over to avoid overlapping ships.");
+                        ShiftShipAcross(board, boardDimension, i, counter);
+
                     }
+                    coordinates.Add(new Coordinate(OriginX, OriginY + i));
                     board.Grid[OriginX][OriginY + i] = 1;
 
                 }
@@ -146,56 +135,38 @@ namespace BattleShip
             }
             return false;
         }
-        private bool OverlapsOtherShipReverseX(Board board, int index)
-        {
-            for (int i = index; i < size; i++)
-            {
-                if (board.Grid[OriginX - i][OriginY] == 1)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        private bool OverlapsOtherShipReverseY(Board board, int index)
-        {
-            for (int i = index; i < size; i++)
-            {
-                if (board.Grid[OriginX][OriginY - i] == 1)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        private void ShiftShipDown (Board board, int boardDimension, int index)
+
+        private void ShiftShipDown (Board board, int boardDimension, int index, int counter)
         {
             while (OverlapsOtherShipX(board, index))
             {
                 OriginY += 1;
+                counter++;
                 if (OriginY > boardDimension - 1)
                 {
                     OriginY = 0;
                 }
             }
-
+            Console.WriteLine($"Shifted {Type} down {counter} rows to avoid overlapping ships.");
         }
-        private void ShiftShipAcross(Board board, int boardDimension, int index)
+        private void ShiftShipAcross(Board board, int boardDimension, int index, int counter)
         {
             while (OverlapsOtherShipY(board, index))
             {
                 OriginX += 1;
+                counter++;
                 if(OriginX > boardDimension - 1)
                 {
                     OriginX = 0;
                 }
             }
-
+            Console.WriteLine($"Shifted {Type} across {counter} columns to avoid overlapping ships.");
         }
         private void ReverseShipCreationDirectionX(Board board)
         {
             for (int i = 0; i < size; i++)
             {
+                coordinates.Add(new Coordinate(originX - i, originY));
                 board.Grid[originX - i][originY] = 1;
             }
             Console.WriteLine("Re-aligned ship to your board.");
@@ -204,6 +175,7 @@ namespace BattleShip
         {
             for (int i = 0; i < size; i++)
             {
+                coordinates.Add(new Coordinate(originX, originY - i));
                 board.Grid[originX][originY - i] = 1;
             }
             Console.WriteLine("Re-aligned ship to your board.");
