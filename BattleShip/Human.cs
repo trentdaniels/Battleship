@@ -161,7 +161,7 @@ namespace BattleShip
             Console.WriteLine($"Shifted {ship.Type} across {counter} columns to avoid overlapping ships.");
         }
 
-        public void GetShipStartingPosition(Ship ship)
+        public override void GetShipStartingPosition(Ship ship)
         {
             int selectedColumn;
             int selectedRow;
@@ -192,7 +192,7 @@ namespace BattleShip
             }
         }
 
-        public void GetShipOrientation(Ship ship)
+        public override void GetShipOrientation(Ship ship)
         {
             Console.WriteLine($"Would you like the {ship.Type} to be [1]Horizontal or [2]Vertical  ?");
             string direction = Console.ReadLine();

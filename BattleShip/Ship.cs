@@ -12,6 +12,7 @@ namespace BattleShip
         private int originX;
         private int originY;
         private List<Coordinate> coordinates;
+        private bool isDestroyed;
 
         public int Size { get => size; set => size = value; }
         public string Orientation { get => orientation; set => orientation = value; }
@@ -19,6 +20,8 @@ namespace BattleShip
         public int OriginX { get => originX; set => originX = value; }
         public int OriginY { get => originY; set => originY = value; }
         public List<Coordinate> Coordinates { get => coordinates; set => coordinates = value; }
+        public bool IsDestroyed { get => isDestroyed; set => isDestroyed = value; }
+
 
         // Constructors
         public Ship()
@@ -28,50 +31,6 @@ namespace BattleShip
 
         // Methods
 
-        public void GetShipStartingPosition()
-        {
-            Console.WriteLine($"On which row would you like to place the {Type}?");
-            if (int.TryParse(Console.ReadLine(), out originX))
-            {
-                originX--;
-            }
-            else
-            {
-                Console.WriteLine("Whoops! Try Again.");
-                GetShipStartingPosition();
-                return;
-            }
-            Console.WriteLine("Which Column?");
-            if (int.TryParse(Console.ReadLine(), out originY))
-            {
-                originY--;
-            }
-            else
-            {
-                Console.WriteLine("Whoops! Try Again.");
-                GetShipStartingPosition();
-                return;
-            }
-        }
-
-        public void GetShipOrientation()
-        {
-            Console.WriteLine($"Would you like the {Type} to be [1]Horizontal or [2]Vertical  ?");
-            string direction = Console.ReadLine();
-            switch (direction) 
-            {
-                case "1":
-                    orientation = "horizontal";
-                    break;
-                case "2":
-                    orientation = "vertical";
-                    break;
-                default:
-                    Console.WriteLine("Invalid input. Please try again.");
-                    GetShipOrientation();
-                    return;
-            }
-        }
 
 
        

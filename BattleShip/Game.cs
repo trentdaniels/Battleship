@@ -54,9 +54,9 @@ namespace BattleShip
                 Console.WriteLine($"{player.Name}:");
                 foreach(Ship ship in player.Ships)
                 {
-                    ship.GetShipStartingPosition();
-                    ship.GetShipOrientation();
-                    ship.PlaceShip(player.Board, boardDimension);
+                    player.GetShipStartingPosition(ship);
+                    player.GetShipOrientation(ship);
+                    player.PlaceShip(player.Board, boardDimension, ship);
                 }
             }
         }
@@ -138,9 +138,31 @@ namespace BattleShip
             }
         }
 
+        bool shipIsDestroyed()
+        {
+            int counter = 0;
+            foreach (Player player in players)
+            {
+                foreach (Ship ship in player.Ships)
+                {
+                    for (int i = 0; i < ship.Coordinates.Count; i++)
+                    {
+                        if (ship.Coordinates[i].IsHit == true)
+                        {
+                            counter++;
+                        }
+                    }
+                    if (counter == ship.Size)
+                    {
+                        ship.IsDestroyed = true;
+                        Console.WriteLine($"Enemy {ship.Type} was destroyed!");
+                        return true;
+                    }
+                }
 
-
-
+            }
+            return false;
+        }
 
     }   
 }
