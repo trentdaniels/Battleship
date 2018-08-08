@@ -86,7 +86,130 @@ namespace BattleShip
 
         }
        
-       
+        public override void PlaceShip(Board board, int boardDimension, Ship ship)
+        {
+            int counter = 0;
+            for (int i = 0; i < ship.Size; i++)
+            {
+                if (ship.Orientation == "horizontal")
+                {
+                    if (ship.NeedsReAlignmentX(boardDimension))
+                    {
+                        ReAlignShipX(ship);
+                    }
+                    if (ship.OverlapsOtherShipX(board, i))
+                    {
+                        ShiftShipDown(board, boardDimension, i, counter, ship);
+
+                    }
+                    ship.Coordinates.Add(new Coordinate(ship.OriginX + i, ship.OriginY));
+                    board.Grid[ship.OriginX + i][ship.OriginY] = 1;
+                }
+                // Vertical Case
+                else
+                {
+                    if (ship.NeedsReAlignmentY(boardDimension))
+                    {
+                        ReAlignShipY(ship);
+                    }
+                    if (ship.OverlapsOtherShipY(board, i))
+                    {
+                        ShiftShipAcross(board, boardDimension, i, counter, ship);
+
+                    }
+                    ship.Coordinates.Add(new Coordinate(ship.OriginX, ship.OriginY + i));
+                    board.Grid[ship.OriginX][ship.OriginY + i] = 1;
+
+                }
+            }
+        }
+
+        private void ReAlignShipX(Ship ship)
+        {
+            ship.OriginX = 0;
+
+        }
+        private void ReAlignShipY(Ship ship)
+        {
+            ship.OriginY = 0;
+        }
+
+        private void ShiftShipDown(Board board, int boardDimension, int index, int counter, Ship ship)
+        {
+            while (ship.OverlapsOtherShipX(board, index))
+            {
+                ship.OriginY += 1;
+                counter++;
+                if (ship.OriginY > boardDimension - 1)
+                {
+                    ship.OriginY = 0;
+                }
+            }
+            Console.WriteLine($"Shifted {ship.Type} down {counter} rows to avoid overlapping ships.");
+        }
+        private void ShiftShipAcross(Board board, int boardDimension, int index, int counter, Ship ship)
+        {
+            while (ship.OverlapsOtherShipY(board, index))
+            {
+                ship.OriginX += 1;
+                counter++;
+                if (ship.OriginX > boardDimension - 1)
+                {
+                    ship.OriginX = 0;
+                }
+            }
+            Console.WriteLine($"Shifted {ship.Type} across {counter} columns to avoid overlapping ships.");
+        }
+
+        public void GetShipStartingPosition(Ship ship)
+        {
+            int selectedColumn;
+            int selectedRow;
+
+            Console.WriteLine($"On which row would you like to place the {ship.Type}?");
+            if (int.TryParse(Console.ReadLine(), out selectedRow))
+            {
+                ship.OriginX = selectedRow;
+                ship.OriginX--;
+            }
+            else
+            {
+                Console.WriteLine("Whoops! Try Again.");
+                GetShipStartingPosition(ship);
+                return;
+            }
+            Console.WriteLine("Which Column?");
+            if (int.TryParse(Console.ReadLine(), out selectedColumn))
+            {
+                ship.OriginY = selectedColumn;
+                ship.OriginY--;
+            }
+            else
+            {
+                Console.WriteLine("Whoops! Try Again.");
+                GetShipStartingPosition(ship);
+                return;
+            }
+        }
+
+        public void GetShipOrientation(Ship ship)
+        {
+            Console.WriteLine($"Would you like the {ship.Type} to be [1]Horizontal or [2]Vertical  ?");
+            string direction = Console.ReadLine();
+            switch (direction)
+            {
+                case "1":
+                    ship.Orientation = "horizontal";
+                    break;
+                case "2":
+                    ship.Orientation = "vertical";
+                    break;
+                default:
+                    Console.WriteLine("Invalid input. Please try again.");
+                    GetShipOrientation(ship);
+                    return;
+            }
+        }
 
 
 

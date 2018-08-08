@@ -30,8 +30,12 @@ namespace BattleShip
         public abstract void FireAtTarget(Player targetedPlayer, int boardDimension);
 
         public abstract string GetName();
-       
 
+        public abstract void PlaceShip(Board board, int boardDimension, Ship ship);
+
+        public abstract void GetShipStartingPosition(Ship ship);
+
+        public abstract void GetShipOrientation(Ship ship);
        
         public void CreateShips () 
         {

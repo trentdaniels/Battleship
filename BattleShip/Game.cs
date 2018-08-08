@@ -8,12 +8,14 @@ namespace BattleShip
         // Member Variables
         List<Player> players;
         private int boardDimension;
+        private int maxNumberOfPlayers;
 
         public int BoardDimension { get => boardDimension; set => boardDimension = value; }
 
         // Constructors
         public Game()
         {
+            maxNumberOfPlayers = 2;
             SetUpPlayers();
             SetUpGame();
             RunShipCreation();
@@ -24,7 +26,7 @@ namespace BattleShip
         private void SetUpPlayers()
         {
             players = new List<Player>();
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < maxNumberOfPlayers; i++)
             {
                 players.Add(CreateNewPlayer());
             }
