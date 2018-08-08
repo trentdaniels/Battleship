@@ -64,7 +64,9 @@ namespace BattleShip
         public void RunGame()
         {
             players[0].FireAtTarget(players[1], boardDimension);
+            players[0].CheckEnemyShipStatus(players[1]);
             players[1].FireAtTarget(players[0], boardDimension);
+            players[1].CheckEnemyShipStatus(players[0]);
         }
 
         public Player CreateNewPlayer()
@@ -138,30 +140,7 @@ namespace BattleShip
             }
         }
 
-        bool shipIsDestroyed()
-        {
-            int counter = 0;
-            foreach (Player player in players)
-            {
-                foreach (Ship ship in player.Ships)
-                {
-                    for (int i = 0; i < ship.Coordinates.Count; i++)
-                    {
-                        if (ship.Coordinates[i].IsHit == true)
-                        {
-                            counter++;
-                        }
-                    }
-                    if (counter == ship.Size)
-                    {
-                        ship.IsDestroyed = true;
-                        Console.WriteLine($"Enemy {ship.Type} was destroyed!");
-                        return true;
-                    }
-                }
 
-            }
-            return false;
         }
 
     }   
