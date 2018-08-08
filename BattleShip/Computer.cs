@@ -18,7 +18,6 @@ namespace BattleShip
         // Methods
         public override void FireAtTarget(Player targetedPlayer, int boardDimension)
         {
-            string result;
             int randomRowOnBoard;
             int randomColumnOnBoard;
             int[][] targetedBoard;
@@ -27,14 +26,20 @@ namespace BattleShip
             randomRowOnBoard = random.Next(0, boardDimension);
             randomColumnOnBoard = random.Next(0, boardDimension);
 
+            foreach (Ship ship in targetedPlayer.Ships)
+            {
+                foreach(Coordinate coordinate in ship.Coordinates)
+                {
+                    if (randomRowOnBoard == coordinate.CoordinateX && randomColumnOnBoard == coordinate.CoordinateY)
+                    {
+                        Console.WriteLine($"{Name} hit the {ship.Type} at row {randomRowOnBoard} column {randomColumnOnBoard}.");
+                        coordinate.IsHit = true;
+                        break;
+                    }
+                }
+                Console.WriteLine($"Missed at row {randomRowOnBoard} column {randomColumnOnBoard}.");
+            }
 
-            targetedBoard[randomRowOnBoard][randomColumnOnBoard]+= 2;
-
-
-            result = $"{Name} fired at row {randomRowOnBoard} column {randomColumnOnBoard}";
-            Console.WriteLine(result);
-
-            
 
         }
         public override string GetName()

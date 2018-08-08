@@ -35,7 +35,7 @@ namespace BattleShip
                             if (selectedRow == coordinate.CoordinateX && selectedColumn == coordinate.CoordinateY)
                             {
                                 coordinate.IsHit = true;
-                                Console.WriteLine($"Hit the {ship.Type} at row {selectedRow} column {selectedColumn}.");
+                                Console.WriteLine($"{Name} hit the {ship.Type} at row {selectedRow} column {selectedColumn}.");
                                 targetedBoard[selectedRow - 1][selectedColumn - 1] += 2;
                                 break;
                             }

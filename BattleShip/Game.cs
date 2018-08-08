@@ -27,9 +27,13 @@ namespace BattleShip
             for (int i = 0; i < 2; i++)
             {
                 players.Add(CreateNewPlayer());
-                players[i].Name = players[i].GetName();
             }
             DeterminePlayer1();
+            foreach(Player player in players)
+            {
+                player.Name = player.GetName();
+            }
+
         }
 
         public void SetUpGame() 
