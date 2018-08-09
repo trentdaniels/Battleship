@@ -43,7 +43,7 @@ namespace BattleShip
 
         public void SetUpGame() 
         {
-            WelcomePlayers();
+            UserInterface.WelcomePlayers(players);
             SetSizeOfBoard();
             CreatePlayerBoard();
         }
@@ -58,9 +58,9 @@ namespace BattleShip
                 {
                     player.GetShipStartingPosition(ship, boardDimension);
                     player.GetShipOrientation(ship);
-                    player.PlaceShip(player.Board, boardDimension, ship);
+                    player.PlaceShip(boardDimension, ship);
                 }
-                Console.WriteLine($"Created Ships for {player.Name}:");
+                UserInterface.ConfirmShipCreation(player);
             }
         }
 
@@ -68,8 +68,14 @@ namespace BattleShip
         {
             do
             {
+                UserInterface.DisplayBoard(players[0]);
                 players[0].FireAtTarget(players[1], boardDimension);
                 players[0].CheckEnemyShipStatus(players[1]);
+                if(!NewRoundNeeded())
+                {
+                    break;
+                }
+                UserInterface.DisplayBoard(players[1]);
                 players[1].FireAtTarget(players[0], boardDimension);
                 players[1].CheckEnemyShipStatus(players[0]);
             } while (NewRoundNeeded());
@@ -85,8 +91,7 @@ namespace BattleShip
             string playerType;
             Player player;
 
-            Console.WriteLine($"New Player:");
-            Console.WriteLine("Are you a [1]Human or [2]Computer");
+            UserInterface.AskPlayerType();
             playerType = Console.ReadLine();
 
             switch (playerType) 
@@ -98,19 +103,20 @@ namespace BattleShip
                     player = new Computer();
                     return player;
                 default:
-                    Console.WriteLine("Invalid input. Please try again.");
+                    UserInterface.ErrorMessage();
                     return CreateNewPlayer();
 
             }
 
         }
 
-        private void CreatePlayerBoard () 
+        private void CreatePlayerBoard ()
         {
-            players[0].Board.Grid = players[0].Board.CreateBoard(boardDimension);
-            players[1].Board.Grid = players[1].Board.CreateBoard(boardDimension);
-            Console.WriteLine($"Each Player will have a board with dimensions of {players[0].Board.Size}.");
-            Console.WriteLine("Created the boards! Now, let's get ready to play.");
+            foreach (Player player in players)
+            {
+                player.Board = player.CreateBoard(boardDimension);
+            }
+            UserInterface.ConfirmBoardCreation(boardDimension);
         }
         private void WelcomePlayers()
         {

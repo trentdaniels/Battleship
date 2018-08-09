@@ -16,9 +16,9 @@ namespace BattleShip
         {
             int selectedRow;
             int selectedColumn;
-            int[][] targetedBoard;
+            string[][] targetedBoard;
 
-            targetedBoard = targetedPlayer.Board.Grid;
+            targetedBoard = targetedPlayer.Board;
 
             Console.WriteLine($"{Name}, which row would you like to target?");
             if(int.TryParse(Console.ReadLine(), out selectedRow))
@@ -35,6 +35,7 @@ namespace BattleShip
                             if (selectedRow == coordinate.CoordinateX && selectedColumn == coordinate.CoordinateY)
                             {
                                 coordinate.IsHit = true;
+                                targetedBoard[selectedRow][selectedColumn] = HitMarker;
                                 Console.WriteLine($"{Name} hit {targetedPlayer.Name}'s {ship.Type} at row {selectedRow + 1} column {selectedColumn + 1}.");
                                 return;
                             }
@@ -42,6 +43,7 @@ namespace BattleShip
                         }
 
                     }
+                    targetedBoard[selectedRow][selectedColumn] = MissMarker;
                     Console.WriteLine($"{Name} missed at row {selectedRow + 1} column {selectedColumn + 1}.");
                 }
 

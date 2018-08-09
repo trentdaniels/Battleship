@@ -20,9 +20,9 @@ namespace BattleShip
         {
             int randomRowOnBoard;
             int randomColumnOnBoard;
-            int[][] targetedBoard;
+            string[][] targetedBoard;
 
-            targetedBoard = targetedPlayer.Board.Grid;
+            targetedBoard = targetedPlayer.Board;
             randomRowOnBoard = random.Next(0, boardDimension);
             randomColumnOnBoard = random.Next(0, boardDimension);
 
@@ -32,8 +32,9 @@ namespace BattleShip
                 {
                     if (randomRowOnBoard == coordinate.CoordinateX && randomColumnOnBoard == coordinate.CoordinateY)
                     {
-                        Console.WriteLine($"{Name} hit {targetedPlayer.Name}'s {ship.Type} at row {randomRowOnBoard + 1} column {randomColumnOnBoard + 1}.");
+                        targetedBoard[randomRowOnBoard][randomColumnOnBoard] = HitMarker;
                         coordinate.IsHit = true;
+                        Console.WriteLine($"{Name} hit {targetedPlayer.Name}'s {ship.Type} at row {randomRowOnBoard + 1} column {randomColumnOnBoard + 1}.");
                         return;
                     }
                 }
@@ -41,6 +42,7 @@ namespace BattleShip
               
 
             }
+            targetedBoard[randomRowOnBoard][randomColumnOnBoard] = MissMarker;
             Console.WriteLine($"{Name} missed at row {randomRowOnBoard + 1} column {randomColumnOnBoard + 1}.");
 
         }

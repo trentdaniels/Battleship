@@ -7,13 +7,19 @@ namespace BattleShip
     {
         // Members
         private string name;
-        private Board board;
+        private string[][] board;
         private List<Ship> ships;
         private bool isPlayer1;
+        private string shipMarker;
+        private string hitMarker;
+        private string missMarker;
+        private string boardMarker;
 
 
+        public string HitMarker { get => hitMarker; }
+        public string MissMarker { get => missMarker; }
         public string Name { get => name; set => name = value; }
-        public Board Board { get => board; set => board = value; }
+        public string[][] Board { get => board; set => board = value; }
         public bool IsPlayer1 { get => isPlayer1; set => isPlayer1 = value; }
         public List<Ship> Ships { get => ships; set => ships = value; }
 
@@ -21,8 +27,8 @@ namespace BattleShip
         // Constructors
         public Player()
         {
-            board = new Board();
             CreateShips();
+            CreateMarkers();
         }
 
         // Methods
@@ -35,13 +41,20 @@ namespace BattleShip
 
         public abstract void GetShipOrientation(Ship ship);
        
-        public void CreateShips () 
+        private void CreateShips () 
         {
             ships = new List<Ship>() { };
             ships.Add(new Destroyer());
             ships.Add(new Submarine());
             ships.Add(new Battleship());
             ships.Add(new AircraftCarrier());
+        }
+        private void CreateMarkers()
+        {
+            shipMarker = "S ";
+            hitMarker = "X ";
+            missMarker = "0 ";
+            boardMarker = "# ";
         }
 
         private bool EnemyShipIsDestroyed(Ship ship)
@@ -84,7 +97,7 @@ namespace BattleShip
             ship.OriginY = 0;
         }
 
-        public void ShiftShipDown(Board board, int boardDimension, int index, int counter, Ship ship)
+        public void ShiftShipDown(int boardDimension, int index, int counter, Ship ship)
         {
             while (ship.OverlapsOtherShipX(board, index))
             {
@@ -95,9 +108,9 @@ namespace BattleShip
                     ship.OriginY = 0;
                 }
             }
-            Console.WriteLine($"Shifted {ship.Type} down {counter} rows to avoid overlapping ships.");
+            Console.WriteLine($"Shifted {ship.Type} over {counter} rows to avoid overlapping ships.");
         }
-        public void ShiftShipAcross(Board board, int boardDimension, int index, int counter, Ship ship)
+        public void ShiftShipAcross(int boardDimension, int index, int counter, Ship ship)
         {
             while (ship.OverlapsOtherShipY(board, index))
             {
@@ -108,10 +121,10 @@ namespace BattleShip
                     ship.OriginX = 0;
                 }
             }
-            Console.WriteLine($"Shifted {ship.Type} across {counter} columns to avoid overlapping ships.");
+            Console.WriteLine($"Shifted {ship.Type} over {counter} columns to avoid overlapping ships.");
         }
 
-        public void PlaceShip(Board board, int boardDimension, Ship ship)
+        public void PlaceShip(int boardDimension, Ship ship)
         {
             int counter = 0;
             for (int i = 0; i < ship.Size; i++)
@@ -124,11 +137,11 @@ namespace BattleShip
                     }
                     if (ship.OverlapsOtherShipX(board, i))
                     {
-                        ShiftShipDown(board, boardDimension, i, counter, ship);
+                        ShiftShipDown(boardDimension, i, counter, ship);
 
                     }
                     ship.Coordinates.Add(new Coordinate(ship.OriginX + i, ship.OriginY));
-                    board.Grid[ship.OriginX + i][ship.OriginY] = 1;
+                    board[ship.OriginX + i][ship.OriginY] = shipMarker;
                 }
                 // Vertical Case
                 else
@@ -139,11 +152,11 @@ namespace BattleShip
                     }
                     if (ship.OverlapsOtherShipY(board, i))
                     {
-                        ShiftShipAcross(board, boardDimension, i, counter, ship);
+                        ShiftShipAcross(boardDimension, i, counter, ship);
 
                     }
                     ship.Coordinates.Add(new Coordinate(ship.OriginX, ship.OriginY + i));
-                    board.Grid[ship.OriginX][ship.OriginY + i] = 1;
+                    board[ship.OriginX][ship.OriginY + i] = shipMarker;
 
                 }
             }
@@ -175,6 +188,26 @@ namespace BattleShip
                 }
             }
             return false;
+        }
+
+        public string[][] CreateBoard(int boardDimension)
+        {
+            
+            string[][] newBoard;
+
+            newBoard = new string[boardDimension][];
+
+
+            for (int i = 0; i < newBoard.Length; i++)
+            {
+                newBoard[i] = new string[boardDimension];
+                for (int j = 0; j < newBoard.Length; j++)
+                {
+                    newBoard[i][j] = boardMarker;
+                }
+            }
+
+            return newBoard;
         }
 
     }
