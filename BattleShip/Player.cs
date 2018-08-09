@@ -59,7 +59,7 @@ namespace BattleShip
                 }
                 if (counter == ship.Size)
                 {
-                    ship.IsDestroyed = true;
+
                     return true;
                 }
             }
@@ -72,7 +72,9 @@ namespace BattleShip
             {
                 if (enemyShipIsDestroyed(targetedPlayer))
                 {
-                    Console.WriteLine($"{targetedPlayer.Name}'s {ship.Type} was destroyed!");
+                    Console.WriteLine($"{targetedPlayer.Name}'s {ship.Type} is destroyed!");
+                    ship.IsDestroyed = true;
+                    return;
                 }
             }
         }

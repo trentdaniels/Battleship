@@ -66,13 +66,13 @@ namespace BattleShip
 
         public void RunGame()
         {
-            while(NewRoundNeeded())
+            do
             {
                 players[0].FireAtTarget(players[1], boardDimension);
                 players[0].CheckEnemyShipStatus(players[1]);
                 players[1].FireAtTarget(players[0], boardDimension);
                 players[1].CheckEnemyShipStatus(players[0]);
-            }
+            } while (NewRoundNeeded());
 
         }
         public void RunEndGame()
@@ -169,7 +169,6 @@ namespace BattleShip
 
         private bool NewRoundNeeded()
         {
-            bool needsNewRound = true;
             foreach(Player player in players)
             {
                 int counter = 0;
@@ -179,17 +178,15 @@ namespace BattleShip
                     {
                         counter++;
                     }
+                    if (counter == player.Ships.Count)
+                    {
+                        return false;
 
-                }
-                if (counter == player.Ships.Count)
-                {
-                    needsNewRound = false;
-                    break;
-
+                    }
                 }
 
             }
-            return needsNewRound;
+            return true;
         }
 
         public bool WantsToPlayAgain()

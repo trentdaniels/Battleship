@@ -35,14 +35,16 @@ namespace BattleShip
                             if (selectedRow == coordinate.CoordinateX && selectedColumn == coordinate.CoordinateY)
                             {
                                 coordinate.IsHit = true;
-                                Console.WriteLine($"{Name} hit the {ship.Type} at row {selectedRow} column {selectedColumn}.");
-                                break;
+                                Console.WriteLine($"{Name} hit {targetedPlayer.Name}'s {ship.Type} at row {selectedRow + 1} column {selectedColumn + 1}.");
+                                return;
                             }
 
                         }
+
                     }
-                    Console.WriteLine($"{Name} missed at row {selectedRow} column {selectedColumn}.");
+                    Console.WriteLine($"{Name} missed at row {selectedRow + 1} column {selectedColumn + 1}.");
                 }
+
                 else 
                 {
                     Console.WriteLine("Invalid Column. Please try again.");
