@@ -32,7 +32,7 @@ namespace BattleShip
                 {
                     if (randomRowOnBoard == coordinate.CoordinateX && randomColumnOnBoard == coordinate.CoordinateY)
                     {
-                        Console.WriteLine($"{Name} hit {targetedPlayer.Name}'s {ship.Type} at row {randomRowOnBoard} column {randomColumnOnBoard}.");
+                        Console.WriteLine($"{Name} hit {targetedPlayer.Name}'s {ship.Type} at row {randomRowOnBoard + 1} column {randomColumnOnBoard + 1}.");
                         coordinate.IsHit = true;
                         return;
                     }
@@ -41,7 +41,7 @@ namespace BattleShip
               
 
             }
-            Console.WriteLine($"{Name} missed at row {randomRowOnBoard} column {randomColumnOnBoard}.");
+            Console.WriteLine($"{Name} missed at row {randomRowOnBoard + 1} column {randomColumnOnBoard + 1}.");
 
         }
         public override string GetName()

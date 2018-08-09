@@ -114,7 +114,7 @@ namespace BattleShip
         }
         private void WelcomePlayers()
         {
-            Console.WriteLine($"Welcome to Battleship {players[0].Name} and {players[1].Name}!");
+            Console.WriteLine($"Welcome to Battleship, {players[0].Name} and {players[1].Name}!");
         }
 
         private void SetSizeOfBoard()
@@ -158,7 +158,7 @@ namespace BattleShip
             {
                 if (player.PlayerShipsDestroyed())
                 {
-                    Console.WriteLine($"{player.Name} lost all of his ships.");
+                    Console.WriteLine($"{player.Name} has no more ships.");
                 }
                 if (player.PlayerShipsAlive())
                 {
@@ -174,7 +174,7 @@ namespace BattleShip
                 int counter = 0;
                 foreach(Ship ship in player.Ships)
                 {
-                    if (ship.IsDestroyed == true)
+                    if (ship.IsDestroyed)
                     {
                         counter++;
                     }

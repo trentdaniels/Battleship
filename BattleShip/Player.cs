@@ -44,24 +44,20 @@ namespace BattleShip
             ships.Add(new AircraftCarrier());
         }
 
-        private bool enemyShipIsDestroyed(Player targetedPlayer)
+        private bool EnemyShipIsDestroyed(Ship ship)
         {
-            int counter = 0;
+            int hitCounter = 0;
 
-            foreach (Ship ship in targetedPlayer.Ships)
+            for (int i = 0; i < ship.Coordinates.Count; i++)
             {
-                for (int i = 0; i < ship.Coordinates.Count; i++)
+                if (ship.Coordinates[i].IsHit)
                 {
-                    if (ship.Coordinates[i].IsHit == true)
-                    {
-                        counter++;
-                    }
+                    hitCounter++;
                 }
-                if (counter == ship.Size)
-                {
-
-                    return true;
-                }
+            }
+            if (hitCounter == ship.Size)
+            {
+                return true;
             }
             return false;
 
@@ -70,11 +66,10 @@ namespace BattleShip
         {
             foreach (Ship ship in targetedPlayer.Ships)
             {
-                if (enemyShipIsDestroyed(targetedPlayer))
+                if (EnemyShipIsDestroyed(ship))
                 {
                     Console.WriteLine($"{targetedPlayer.Name}'s {ship.Type} is destroyed!");
                     ship.IsDestroyed = true;
-                    return;
                 }
             }
         }
@@ -159,7 +154,7 @@ namespace BattleShip
             int counter = 0;
             foreach (Ship ship in Ships)
             {
-                if (ship.IsDestroyed == true)
+                if (ship.IsDestroyed)
                 {
                     counter++;
                 }
@@ -174,7 +169,7 @@ namespace BattleShip
         {
             foreach(Ship ship in Ships)
             {
-                if (ship.IsDestroyed == false)
+                if (!ship.IsDestroyed)
                 {
                     return true;
                 }
