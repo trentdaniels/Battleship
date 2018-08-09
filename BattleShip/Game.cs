@@ -16,13 +16,16 @@ namespace BattleShip
         public Game()
         {
             maxNumberOfPlayers = 2;
-            SetUpPlayers();
-            SetUpGame();
-            RunShipCreation();
-            RunGame();
         }
 
         // Methods
+        public void RunStartGame()
+        {
+            SetUpPlayers();
+            SetUpGame();
+            RunShipCreation();
+        }
+
         private void SetUpPlayers()
         {
             players = new List<Player>();
@@ -51,30 +54,38 @@ namespace BattleShip
         {
             foreach(Player player in players)
             {
-                Console.WriteLine($"{player.Name}:");
                 foreach(Ship ship in player.Ships)
                 {
-                    player.GetShipStartingPosition(ship);
+                    player.GetShipStartingPosition(ship, boardDimension);
                     player.GetShipOrientation(ship);
                     player.PlaceShip(player.Board, boardDimension, ship);
                 }
+                Console.WriteLine($"Created Ships for {player.Name}:");
             }
         }
 
         public void RunGame()
         {
-            players[0].FireAtTarget(players[1], boardDimension);
-            players[0].CheckEnemyShipStatus(players[1]);
-            players[1].FireAtTarget(players[0], boardDimension);
-            players[1].CheckEnemyShipStatus(players[0]);
+            while(NewRoundNeeded())
+            {
+                players[0].FireAtTarget(players[1], boardDimension);
+                players[0].CheckEnemyShipStatus(players[1]);
+                players[1].FireAtTarget(players[0], boardDimension);
+                players[1].CheckEnemyShipStatus(players[0]);
+            }
+
+        }
+        public void RunEndGame()
+        {
+            DetermineResults();
         }
 
-        public Player CreateNewPlayer()
+        private Player CreateNewPlayer()
         {
             string playerType;
             Player player;
 
-            Console.WriteLine("New Player:");
+            Console.WriteLine($"New Player:");
             Console.WriteLine("Are you a [1]Human or [2]Computer");
             playerType = Console.ReadLine();
 
@@ -94,7 +105,7 @@ namespace BattleShip
 
         }
 
-        public void CreatePlayerBoard () 
+        private void CreatePlayerBoard () 
         {
             players[0].Board.Grid = players[0].Board.CreateBoard(boardDimension);
             players[1].Board.Grid = players[1].Board.CreateBoard(boardDimension);
@@ -106,13 +117,13 @@ namespace BattleShip
             Console.WriteLine($"Welcome to Battleship {players[0].Name} and {players[1].Name}!");
         }
 
-        public void SetSizeOfBoard()
+        private void SetSizeOfBoard()
         {
             boardDimension = GetSizeOfBoard();
 
         }
 
-        public int GetSizeOfBoard()
+        private int GetSizeOfBoard()
         {
 
             Console.WriteLine("How many rows does each board have? Please choose a number (20 and above).");
@@ -125,7 +136,7 @@ namespace BattleShip
             }
             return boardPossibleDimension;
         }
-        public void DeterminePlayer1()
+        private void DeterminePlayer1()
         {
             foreach(Player player in players)
             {
@@ -141,6 +152,61 @@ namespace BattleShip
         }
 
 
+        private void DetermineResults()
+        {
+            foreach(Player player in players)
+            {
+                if (player.PlayerShipsDestroyed())
+                {
+                    Console.WriteLine($"{player.Name} lost all of his ships.");
+                }
+                if (player.PlayerShipsAlive())
+                {
+                    Console.WriteLine($"{player.Name} has won!!");
+                }
+            }
+        }
+
+        private bool NewRoundNeeded()
+        {
+            bool needsNewRound = true;
+            foreach(Player player in players)
+            {
+                int counter = 0;
+                foreach(Ship ship in player.Ships)
+                {
+                    if (ship.IsDestroyed == true)
+                    {
+                        counter++;
+                    }
+
+                }
+                if (counter == player.Ships.Count)
+                {
+                    needsNewRound = false;
+                    break;
+
+                }
+
+            }
+            return needsNewRound;
+        }
+
+        public bool WantsToPlayAgain()
+        {
+            Console.WriteLine("Would you like to play again? [1]Yes or [2]No");
+            string playAgainString = Console.ReadLine();
+
+            switch(playAgainString)
+            {
+                case "1":
+                    return true;
+                case "2":
+                    return false;
+                default:
+                    Console.WriteLine("Invalid input. Please try again.");
+                    return WantsToPlayAgain();
+            }
         }
 
     }   

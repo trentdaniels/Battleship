@@ -37,7 +37,9 @@ namespace BattleShip
                         break;
                     }
                 }
-                Console.WriteLine($"Missed at row {randomRowOnBoard} column {randomColumnOnBoard}.");
+                Console.WriteLine($"{Name} missed at row {randomRowOnBoard} column {randomColumnOnBoard}.");
+                break;
+
             }
 
 
@@ -48,6 +50,37 @@ namespace BattleShip
             computerName += IsPlayer1 ? "1" : "2";
             return computerName;
         }
+
+
+
+        public override void GetShipStartingPosition(Ship ship, int boardDimension)
+        {
+            int selectedRow;
+            int selectedColumn;
+
+            selectedRow = random.Next(0, boardDimension);
+            selectedColumn = random.Next(0, boardDimension);
+
+            ship.OriginX = selectedRow;
+            ship.OriginY = selectedColumn;
+        }
+
+        public override void GetShipOrientation(Ship ship)
+        {
+            int randomOrientation = random.Next(0, 2);
+
+            switch(randomOrientation)
+            {
+                case 0:
+                    ship.Orientation = "horizontal";
+                    break;
+                case 1:
+                    ship.Orientation = "vertical";
+                    break;
+            }
+        }
+
+
 
     }
 }

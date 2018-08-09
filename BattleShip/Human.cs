@@ -36,13 +36,12 @@ namespace BattleShip
                             {
                                 coordinate.IsHit = true;
                                 Console.WriteLine($"{Name} hit the {ship.Type} at row {selectedRow} column {selectedColumn}.");
-                                targetedBoard[selectedRow - 1][selectedColumn - 1] += 2;
                                 break;
                             }
 
                         }
                     }
-                    Console.WriteLine($"Missed at row {selectedRow} column {selectedColumn}.");
+                    Console.WriteLine($"{Name} missed at row {selectedRow} column {selectedColumn}.");
                 }
                 else 
                 {
@@ -57,12 +56,8 @@ namespace BattleShip
                 FireAtTarget(targetedPlayer, boardDimension);
                 return;
             }
-
-
-            Console.WriteLine($"{Name} fired at row {selectedRow} column {selectedColumn}");
-
-            
         }
+
         private bool IsTargetOffBoard(int selectedRow, int selectedColumn, int boardDimension)
         {
             return selectedRow > boardDimension || selectedColumn > boardDimension;
@@ -73,7 +68,7 @@ namespace BattleShip
             string welcome;
             string playerName;
 
-            welcome = "What is your name?";
+            welcome = $"{(IsPlayer1 ? "Player1:": "Player2:")} What is your name?";
             Console.WriteLine(welcome);
             playerName = Console.ReadLine();
 
@@ -86,82 +81,8 @@ namespace BattleShip
 
         }
        
-        public override void PlaceShip(Board board, int boardDimension, Ship ship)
-        {
-            int counter = 0;
-            for (int i = 0; i < ship.Size; i++)
-            {
-                if (ship.Orientation == "horizontal")
-                {
-                    if (ship.NeedsReAlignmentX(boardDimension))
-                    {
-                        ReAlignShipX(ship);
-                    }
-                    if (ship.OverlapsOtherShipX(board, i))
-                    {
-                        ShiftShipDown(board, boardDimension, i, counter, ship);
 
-                    }
-                    ship.Coordinates.Add(new Coordinate(ship.OriginX + i, ship.OriginY));
-                    board.Grid[ship.OriginX + i][ship.OriginY] = 1;
-                }
-                // Vertical Case
-                else
-                {
-                    if (ship.NeedsReAlignmentY(boardDimension))
-                    {
-                        ReAlignShipY(ship);
-                    }
-                    if (ship.OverlapsOtherShipY(board, i))
-                    {
-                        ShiftShipAcross(board, boardDimension, i, counter, ship);
-
-                    }
-                    ship.Coordinates.Add(new Coordinate(ship.OriginX, ship.OriginY + i));
-                    board.Grid[ship.OriginX][ship.OriginY + i] = 1;
-
-                }
-            }
-        }
-
-        private void ReAlignShipX(Ship ship)
-        {
-            ship.OriginX = 0;
-
-        }
-        private void ReAlignShipY(Ship ship)
-        {
-            ship.OriginY = 0;
-        }
-
-        private void ShiftShipDown(Board board, int boardDimension, int index, int counter, Ship ship)
-        {
-            while (ship.OverlapsOtherShipX(board, index))
-            {
-                ship.OriginY += 1;
-                counter++;
-                if (ship.OriginY > boardDimension - 1)
-                {
-                    ship.OriginY = 0;
-                }
-            }
-            Console.WriteLine($"Shifted {ship.Type} down {counter} rows to avoid overlapping ships.");
-        }
-        private void ShiftShipAcross(Board board, int boardDimension, int index, int counter, Ship ship)
-        {
-            while (ship.OverlapsOtherShipY(board, index))
-            {
-                ship.OriginX += 1;
-                counter++;
-                if (ship.OriginX > boardDimension - 1)
-                {
-                    ship.OriginX = 0;
-                }
-            }
-            Console.WriteLine($"Shifted {ship.Type} across {counter} columns to avoid overlapping ships.");
-        }
-
-        public override void GetShipStartingPosition(Ship ship)
+        public override void GetShipStartingPosition(Ship ship, int boardDimension)
         {
             int selectedColumn;
             int selectedRow;
@@ -169,25 +90,38 @@ namespace BattleShip
             Console.WriteLine($"On which row would you like to place the {ship.Type}?");
             if (int.TryParse(Console.ReadLine(), out selectedRow))
             {
+                if (selectedRow > boardDimension)
+                {
+                    Console.WriteLine("Selected Row isn't on the board. Please try again.");
+                    GetShipStartingPosition(ship, boardDimension);
+                    return;
+                }
                 ship.OriginX = selectedRow;
                 ship.OriginX--;
+
             }
             else
             {
                 Console.WriteLine("Whoops! Try Again.");
-                GetShipStartingPosition(ship);
+                GetShipStartingPosition(ship, boardDimension);
                 return;
             }
             Console.WriteLine("Which Column?");
             if (int.TryParse(Console.ReadLine(), out selectedColumn))
             {
+                if (selectedColumn > boardDimension)
+                {
+                    Console.WriteLine("Selected Column isn't on the board. Please try again.");
+                    GetShipStartingPosition(ship, boardDimension);
+                    return;
+                }
                 ship.OriginY = selectedColumn;
                 ship.OriginY--;
             }
             else
             {
                 Console.WriteLine("Whoops! Try Again.");
-                GetShipStartingPosition(ship);
+                GetShipStartingPosition(ship, boardDimension);
                 return;
             }
         }
